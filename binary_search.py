@@ -1,4 +1,4 @@
-
+import time
 def binary_search(arr, key):
     low = 0
     high = len(arr) - 1
