@@ -1,0 +1,24 @@
+def knapsack(w, val, W):
+    n = len(w)
+    dp = [[0 for _ in range(W + 1)] for _ in range(n + 1)]
+    
+    for i in range(n + 1):
+        for j in range(W + 1):
+            if i == 0 or j == 0:
+                dp[i][j] = 0
+            else:
+                pick = 0
+                if w[i-1] <= j:
+                    
+                    pick = val[i-1] + dp[i-1][j - w[i-1]]
+            
+                not_pick = dp[i-1][j]
+                dp[i][j] = max(pick, not_pick)
+                
+    return dp[n][W]
+
+weights = [1, 2, 5]
+values = [10, 40, 50]
+max_capacity = 7
+
+print(knapsack(weights, values, max_capacity))  # output 90
