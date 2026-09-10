@@ -1,0 +1,27 @@
+def m_m(arr, n):
+    m = [[0 for _ in range(n)] for _ in range(n)]
+
+    for i in range(n):
+        m[i][i] = 0
+
+    for T in range(2, n):
+        for i in range(n - T):
+            j = T + i
+            m[i][j] = float('inf')
+
+            for k in range(i + 1, j):
+                cost = m[i][k] + m[k][j] + arr[i] * arr[k] * arr[j]
+
+                if cost < m[i][j]:
+                    m[i][j] = cost
+
+    return m[0][n - 1]
+
+
+# Main program
+n = int(input("Enter number of matrices: "))
+
+arr = list(map(int, input(f"Enter {n + 1} dimensions: ").split()))
+
+print("Minimum number of multiplications =", m_m(arr, n + 1))
+```
