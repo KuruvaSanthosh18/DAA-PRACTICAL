@@ -1,0 +1,34 @@
+import sys
+
+def main():
+    # Input number of coin denominations
+    n = int(input("Enter the number of coin denominations: "))
+    
+    # Input the coin denominations as a list
+    print("Enter the coin denominations:")
+    coins = [int(input()) for _ in range(n)]
+    
+    # Input the target amount
+    amount = int(input("Enter the amount: "))
+    
+    # Initialize DP array with infinity
+    dp = [float('inf')] * (amount + 1)
+    
+    # Base case: 0 coins needed to make 0 amount
+    dp[0] = 0
+    
+    # Compute minimum coins for all amounts from 1 to target amount
+    for i in range(1, amount + 1):
+        for j in range(n):
+            if coins[j] <= i and dp[i - coins[j]] != float('inf'):
+                if dp[i - coins[j]] + 1 < dp[i]:
+                    dp[i] = dp[i - coins[j]] + 1
+                    
+    # Output the result
+    if dp[amount] == float('inf'):
+        print("Change cannot be made for the given amount.")
+    else:
+        print(f"Minimum number of coins required: {dp[amount]}")
+
+if __name__ == "__main__":
+    main()
