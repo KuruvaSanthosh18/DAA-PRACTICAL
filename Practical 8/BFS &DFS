@@ -1,0 +1,63 @@
+from collections import deque
+
+# Global variables to mirror the C structure
+graph = []
+visited = []
+n = 0
+
+def DFS(vertex):
+    global visited, graph, n
+    
+    visited[vertex] = True
+    print(vertex, end=" ")
+
+    for i in range(n):
+        if graph[vertex][i] == 1 and not visited[i]:
+            DFS(i)
+
+def BFS(start):
+    global graph, n
+    
+    # Initialize visited tracker for BFS
+    visited_BFS = [False] * n
+    queue = deque()
+
+    queue.append(start)
+    visited_BFS[start] = True
+
+    while queue:
+        current = queue.popleft()
+        print(current, end=" ")
+
+        for i in range(n):
+            if graph[current][i] == 1 and not visited_BFS[i]:
+                queue.append(i)
+                visited_BFS[i] = True
+
+def main():
+    global graph, visited, n
+
+    n = int(input("Enter number of vertices: "))
+
+    print("Enter adjacency matrix row by row (space-separated values):")
+    graph = []
+    for i in range(n):
+        row = list(map(int, input().split()))
+        graph.append(row)
+
+    start = int(input(f"Enter starting vertex (0 to {n - 1}): "))
+
+    # BFS Traversal
+    print("\nBFS Traversal: ", end="")
+    BFS(start)
+
+    # Reset visited array for DFS
+    visited = [False] * n
+
+    # DFS Traversal
+    print("\nDFS Traversal: ", end="")
+    DFS(start)
+    print()  # For a final newline
+
+if __name__ == "__main__":
+    main()
