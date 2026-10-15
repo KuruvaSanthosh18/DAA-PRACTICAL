@@ -1,0 +1,39 @@
+import sys
+
+# Enter number of vertices
+n = int(input("Enter number of vertices: "))
+
+# Enter the graph
+print("Enter the graph:")
+graph = []
+for i in range(n):
+    # Reads a row of space-separated integers
+    row = list(map(int, input().split()))
+    graph.append(row)
+
+# Tracking visited vertices
+visited = [0] * 10
+visited[0] = 1
+
+total = 0
+
+# Loop to find the Minimum Spanning Tree (Prim's Algorithm)
+for count in range(n - 1):
+    minimum = sys.maxsize  # Equivalent to INT_MAX
+    u = -1
+    v = -1
+    
+    for i in range(n):
+        if visited[i] == 1:
+            for j in range(n):
+                if graph[i][j] != 0 and visited[j] == 0:
+                    if graph[i][j] < minimum:
+                        minimum = graph[i][j]
+                        u = i
+                        v = j
+                        
+    print(f"{u} - {v} = {minimum}")
+    total = total + minimum
+    visited[v] = 1
+
+print(f"Minimum cost = {total}")
