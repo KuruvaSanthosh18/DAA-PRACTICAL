@@ -1,0 +1,56 @@
+# A simple class to mirror the structure in C
+class Edge:
+    def __init__(self, u, v, w):
+        self.u = u
+        self.v = v
+        self.w = w
+
+# Disjoint Set: Find function
+def find(parent, x):
+    while parent[x] != x:
+        parent[x] = parent[parent[x]] # Optional path compression optimization
+        x = parent[x]
+    return x
+
+# Disjoint Set: Union function
+def union_set(parent, u, v):
+    u = find(parent, u)
+    v = find(parent, v)
+    parent[v] = u
+
+def main():
+    # Input verification & initialization
+    n = int(input("Enter number of vertices: "))
+    e = int(input("Enter number of edges: "))
+
+    edges = []
+    print("Enter edges (u v weight):")
+    for _ in range(e):
+        u, v, w = map(int, input().split())
+        edges.append(Edge(u, v, w))
+
+    # Sort edges based on weight (w) using Python's efficient built-in sort
+    edges.sort(key=lambda edge: edge.w)
+
+    # Initialize parent array (1-indexed to match your C code logic)
+    parent = [i for i in range(n + 1)]
+
+    count = 0
+    total = 0
+
+    print("\nMinimum Spanning Tree:")
+    for edge in edges:
+        if find(parent, edge.u) != find(parent, edge.v):
+            print(f"{edge.u} - {edge.v} = {edge.w}")
+            
+            total += edge.w
+            union_set(parent, edge.u, edge.v)
+            count += 1
+
+            if count == n - 1:
+                break
+
+    print(f"Total cost = {total}")
+
+if __name__ == "__main__":
+    main()
