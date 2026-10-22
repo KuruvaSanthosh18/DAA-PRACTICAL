@@ -1,0 +1,17 @@
+n = int(input("Enter number of vertices: "))
+
+print("Enter the cost matrix:")
+d = []
+for i in range(n):
+    row = list(map(int, input().split()))
+    d.append(row)
+
+for k in range(n):
+    for i in range(n):
+        for j in range(n):
+            if d[i][k] + d[k][j] < d[i][j]:
+                d[i][j] = d[i][k] + d[k][j]
+
+print("Shortest distance matrix:")
+for i in range(n):
+    print(" ".join(map(str, d[i])))
