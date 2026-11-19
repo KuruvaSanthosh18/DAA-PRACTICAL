@@ -1,0 +1,48 @@
+MAX = 10
+min_cost = 999999
+
+
+def tsp(city: int, count: int, total_cost: int, n: int, cost: list[list[int]], visited: list[bool]) -> None:
+    global min_cost
+
+    if count == n and cost[city][0] > 0:
+        final_cost = total_cost + cost[city][0]
+        if final_cost < min_cost:
+            min_cost = final_cost
+        return
+
+    for i in range(n):
+        if not visited[i] and cost[city][i] > 0:
+            visited[i] = True
+            tsp(i, count + 1, total_cost + cost[city][i], n, cost, visited)
+            visited[i] = False
+
+
+def main() -> None:
+    n = int(input("Enter number of cities (maximum 10): "))
+    if n < 2 or n > MAX:
+        print("Invalid number of cities.")
+        return
+
+    print("Enter the cost matrix:")
+    cost = []
+    for _ in range(n):
+        row = list(map(int, input().split()))
+        if len(row) != n:
+            print(f"Please enter exactly {n} values per row.")
+            return
+        cost.append(row)
+
+    visited = [False] * n
+    visited[0] = True
+
+    tsp(0, 1, 0, n, cost, visited)
+
+    if min_cost == 999999:
+        print("No complete tour exists.")
+    else:
+        print(f"Minimum travelling cost = {min_cost}")
+
+
+if __name__ == "__main__":
+    main()
